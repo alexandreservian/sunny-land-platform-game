@@ -5,12 +5,12 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public float speed = 1f;
-    private CharacterController characterController;
+    private CharacterController2D characterController;
     private float horizontalMove = 0f;
 
     void Awake()
     {
-        characterController = GetComponent<CharacterController>();
+        characterController = GetComponent<CharacterController2D>();
     }
 
     void Update()
@@ -20,6 +20,6 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-        characterController.move(horizontalMove);
+        characterController.Move(horizontalMove);
     }
 }
