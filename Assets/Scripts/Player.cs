@@ -5,8 +5,10 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public float speed = 1f;
+    public float jumpForce = 1f;
     private CharacterController2D characterController;
     private float horizontalMove = 0f;
+    public bool isJumping = false;
 
     void Awake()
     {
@@ -16,10 +18,14 @@ public class Player : MonoBehaviour
     void Update()
     {
         horizontalMove = Input.GetAxisRaw("Horizontal") * speed;
+        if(Input.GetButtonDown("Jump")){
+            isJumping = true;
+        }
     }
 
     void FixedUpdate()
     {
-        characterController.Move(horizontalMove);
+        characterController.Move(horizontalMove, isJumping, jumpForce);
+        isJumping = false;
     }
 }
