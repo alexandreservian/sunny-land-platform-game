@@ -17,12 +17,13 @@ public class Player : MonoBehaviour
     void Update()
     {
         horizontalMove = Input.GetAxisRaw("Horizontal");
-        jumpButtonPressed = Input.GetButtonDown("Jump");
+        jumpButtonPressed = jumpButtonPressed || Input.GetButtonDown("Jump");
         jumpButtonPressing = Input.GetButton("Jump");
     }
 
     void FixedUpdate()
     {
         characterController.Move(horizontalMove, jumpButtonPressed, jumpButtonPressing);
+        jumpButtonPressed = false;
     }
 }
