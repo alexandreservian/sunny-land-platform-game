@@ -227,7 +227,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 168177402}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.65, y: -1.5, z: -0.70023406}
+  m_LocalPosition: {x: -0.07, y: 1.32, z: -0.70023406}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -264,7 +264,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 446657643}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.47, y: -0.86, z: -0.06922277}
+  m_LocalPosition: {x: -0.17, y: 2.1, z: -0.06922277}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -358,7 +358,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 3
+  m_GravityScale: 1
   m_Material: {fileID: 6200000, guid: 1cb1fb55a9b4c4808921897c4ee4213a, type: 2}
   m_Interpolate: 1
   m_SleepingMode: 0
@@ -392,6 +392,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55c56f5b3c15e4465bf41a46add03a95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  extraHeightText: 0.01
   runSpeed: 4
   jumpForce: 12
   fallMultiplier: 6

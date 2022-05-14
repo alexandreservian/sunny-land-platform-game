@@ -7,7 +7,7 @@ public class CharacterController2D : MonoBehaviour
     private Rigidbody2D rb;
     private CapsuleCollider2D capsuleCollider;
     private bool facingRight = true;
-    private float extraHeightText = 0.05f;
+    [SerializeField] private float extraHeightText = 0.05f;
     private float initalGravityScale;
     
     [Header("Run")]
