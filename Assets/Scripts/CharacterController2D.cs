@@ -5,7 +5,7 @@ using UnityEngine;
 public class CharacterController2D : MonoBehaviour
 {
     private Rigidbody2D rb;
-    private CapsuleCollider2D capsuleCollider;
+    private BoxCollider2D boxCollider;
     private bool facingRight = true;
     [SerializeField] private float extraHeightText = 0.05f;
     private float initalGravityScale;
@@ -23,7 +23,7 @@ public class CharacterController2D : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        capsuleCollider = GetComponent<CapsuleCollider2D>();
+        boxCollider = GetComponent<BoxCollider2D>();
         initalGravityScale = rb.gravityScale;
     }
     public void Move(float horizontalMove, bool jumpButtonPressed, bool jumpButtonPressing)
@@ -56,20 +56,9 @@ public class CharacterController2D : MonoBehaviour
     }
 
     private bool IsGrounded() {
-        RaycastHit2D raycastHit2d = Physics2D.BoxCast(capsuleCollider.bounds.center, capsuleCollider.bounds.size, 0f, Vector2.down, extraHeightText, platformLayerMask);
+        RaycastHit2D raycastHit2d = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0f, Vector2.down, extraHeightText, platformLayerMask);
         return raycastHit2d.collider != null;
     }
 
-     private void OnDrawGizmos() {
-        capsuleCollider = capsuleCollider == null ? GetComponent<CapsuleCollider2D>() : capsuleCollider;
-        Color rayColor;
-        if(IsGrounded()){
-            rayColor = Color.green;
-        }else{
-            rayColor = Color.red;
-        }
-        Debug.DrawRay(capsuleCollider.bounds.center + new Vector3(capsuleCollider.bounds.extents.x, 0), Vector2.down * (capsuleCollider.bounds.extents.y + extraHeightText), rayColor);
-        Debug.DrawRay(capsuleCollider.bounds.center - new Vector3(capsuleCollider.bounds.extents.x, 0), Vector2.down * (capsuleCollider.bounds.extents.y + extraHeightText), rayColor);
-        Debug.DrawRay(capsuleCollider.bounds.center - new Vector3(capsuleCollider.bounds.extents.x, capsuleCollider.bounds.extents.y + extraHeightText), Vector2.right * (capsuleCollider.bounds.extents.x) * 2, rayColor);
-    }
+    
 }
