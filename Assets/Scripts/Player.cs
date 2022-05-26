@@ -34,7 +34,7 @@ public class Player : MonoBehaviour
 
     void SetAnimations(){
         bool isRunning = horizontalMove != 0;
-        bool isJumping = rb.velocity.y != 0;
+        bool isJumping = !characterController.IsGrounded();
         animator.SetBool("IsRunning", isRunning);
         animator.SetBool("IsJumping", isJumping);
         animator.SetFloat("YVelocity", rb.velocity.y);

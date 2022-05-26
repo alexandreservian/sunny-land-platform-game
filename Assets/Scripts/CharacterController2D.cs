@@ -55,10 +55,21 @@ public class CharacterController2D : MonoBehaviour
         transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
     }
 
-    private bool IsGrounded() {
+    public bool IsGrounded() {
         RaycastHit2D raycastHit2d = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0f, Vector2.down, extraHeightText, platformLayerMask);
         return raycastHit2d.collider != null;
     }
 
-    
+    private void OnDrawGizmos() {
+        boxCollider = boxCollider == null ? GetComponent<BoxCollider2D>() : boxCollider;
+        Color rayColor;
+        if(IsGrounded()){
+            rayColor = Color.green;
+        }else{
+            rayColor = Color.red;
+        }
+        Debug.DrawRay(boxCollider.bounds.center + new Vector3(boxCollider.bounds.extents.x, 0), Vector2.down * (boxCollider.bounds.extents.y + extraHeightText), rayColor);
+        Debug.DrawRay(boxCollider.bounds.center - new Vector3(boxCollider.bounds.extents.x, 0), Vector2.down * (boxCollider.bounds.extents.y + extraHeightText), rayColor);
+        Debug.DrawRay(boxCollider.bounds.center - new Vector3(boxCollider.bounds.extents.x, boxCollider.bounds.extents.y + extraHeightText), Vector2.right * (boxCollider.bounds.extents.x) * 2, rayColor);
+    }
 }
