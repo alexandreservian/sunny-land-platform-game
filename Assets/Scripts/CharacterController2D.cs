@@ -7,7 +7,7 @@ public class CharacterController2D : MonoBehaviour
     private Rigidbody2D rb;
     private BoxCollider2D boxCollider;
     private bool facingRight = true;
-    [SerializeField] private float extraHeightText = 0.05f;
+    [SerializeField] private float groundCheckDistance = 0.05f;
     private float initalGravityScale;
     
     [Header("Run")]
@@ -18,7 +18,13 @@ public class CharacterController2D : MonoBehaviour
     [SerializeField] private float fallMultiplier = 1f;
     [SerializeField] private float lowJumpFallMultiplier = 1f;
     [SerializeField] private LayerMask platformLayerMask;
-    
+
+    [Header("Slopes")]
+    [SerializeField] private float slopeCheckDistance;
+    [SerializeField] private PhysicsMaterial2D noFrictionMaterial;
+    [SerializeField] private PhysicsMaterial2D frictionMaterial;
+    private float slopeAngle;
+    private Vector2 perpenticularSpeed;
     
     void Awake()
     {
@@ -28,8 +34,9 @@ public class CharacterController2D : MonoBehaviour
     }
     public void Move(float horizontalMove, bool jumpButtonPressed, bool jumpButtonPressing)
     {
+        perpenticularSpeed = Vector2.Perpendicular(GetHitSlope().normal).normalized;
         float speed = horizontalMove * runSpeed;
-        rb.velocity = new Vector2(speed, rb.velocity.y);
+        
 
         if((speed > 0f && !facingRight) || (speed < 0f && facingRight)){
             Flip();
@@ -39,14 +46,28 @@ public class CharacterController2D : MonoBehaviour
             rb.velocity = Vector2.up * jumpForce;
         }
 
-        if(rb.velocity.y < 0f) {
+        if(rb.velocity.y < 0f && !IsGrounded()) {
             rb.gravityScale = fallMultiplier;
         }
-        else if (rb.velocity.y > 0f &&  !jumpButtonPressing) {
+        else if (rb.velocity.y > 0f &&  !jumpButtonPressing && !IsGrounded()) {
             rb.gravityScale = lowJumpFallMultiplier;
         }
         else {
             rb.gravityScale = initalGravityScale;
+        }
+
+        if(IsOnSlopes() && speed == 0f) {
+            rb.sharedMaterial = frictionMaterial;
+        } else {
+            rb.sharedMaterial = noFrictionMaterial;
+        }
+
+        //Debug.Log(GetHitSlope().normal);
+
+        if(IsOnSlopes()) {
+            rb.velocity = new Vector2(-speed * perpenticularSpeed.x, -perpenticularSpeed.y * rb.velocity.y);
+        } else {
+            rb.velocity = new Vector2(speed, rb.velocity.y);
         }
     }
     private void Flip()
@@ -56,8 +77,20 @@ public class CharacterController2D : MonoBehaviour
     }
 
     public bool IsGrounded() {
-        RaycastHit2D raycastHit2d = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0f, Vector2.down, extraHeightText, platformLayerMask);
+        RaycastHit2D raycastHit2d = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0f, Vector2.down, groundCheckDistance, platformLayerMask);
         return raycastHit2d.collider != null;
+    }
+
+    private RaycastHit2D GetHitSlope() {
+        return Physics2D.Raycast(boxCollider.bounds.size, Vector2.down, slopeCheckDistance, platformLayerMask);
+    }
+
+    private bool IsOnSlopes() {
+        if(GetHitSlope()) {
+            float slopeAngle = Vector2.Angle(GetHitSlope().normal, Vector2.up);
+            return slopeAngle != 0;
+        }
+        return false;
     }
 
     private void OnDrawGizmos() {
@@ -68,8 +101,9 @@ public class CharacterController2D : MonoBehaviour
         }else{
             rayColor = Color.red;
         }
-        Debug.DrawRay(boxCollider.bounds.center + new Vector3(boxCollider.bounds.extents.x, 0), Vector2.down * (boxCollider.bounds.extents.y + extraHeightText), rayColor);
-        Debug.DrawRay(boxCollider.bounds.center - new Vector3(boxCollider.bounds.extents.x, 0), Vector2.down * (boxCollider.bounds.extents.y + extraHeightText), rayColor);
-        Debug.DrawRay(boxCollider.bounds.center - new Vector3(boxCollider.bounds.extents.x, boxCollider.bounds.extents.y + extraHeightText), Vector2.right * (boxCollider.bounds.extents.x) * 2, rayColor);
+        Debug.DrawRay(boxCollider.bounds.center + new Vector3(boxCollider.bounds.extents.x, 0), Vector2.down * (boxCollider.bounds.extents.y + groundCheckDistance), rayColor);
+        Debug.DrawRay(boxCollider.bounds.center - new Vector3(boxCollider.bounds.extents.x, 0), Vector2.down * (boxCollider.bounds.extents.y + groundCheckDistance), rayColor);
+        Debug.DrawRay(boxCollider.bounds.center - new Vector3(boxCollider.bounds.extents.x, boxCollider.bounds.extents.y + groundCheckDistance), Vector2.right * (boxCollider.bounds.extents.x) * 2, rayColor);
+        Debug.DrawRay(transform.position, Vector2.down * slopeCheckDistance, Color.blue);
     }
 }
