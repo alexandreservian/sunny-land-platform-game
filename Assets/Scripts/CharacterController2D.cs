@@ -62,10 +62,8 @@ public class CharacterController2D : MonoBehaviour
             rb.sharedMaterial = noFrictionMaterial;
         }
 
-        //Debug.Log(GetHitSlope().normal);
-
         if(IsOnSlopes()) {
-            rb.velocity = new Vector2(-speed * perpenticularSpeed.x, -perpenticularSpeed.y * rb.velocity.y);
+            rb.velocity = new Vector2(-speed * perpenticularSpeed.x, -speed * perpenticularSpeed.y);
         } else {
             rb.velocity = new Vector2(speed, rb.velocity.y);
         }
@@ -82,7 +80,7 @@ public class CharacterController2D : MonoBehaviour
     }
 
     private RaycastHit2D GetHitSlope() {
-        return Physics2D.Raycast(boxCollider.bounds.size, Vector2.down, slopeCheckDistance, platformLayerMask);
+        return Physics2D.Raycast(transform.position, Vector2.down, slopeCheckDistance, platformLayerMask);
     }
 
     private bool IsOnSlopes() {
