@@ -18,6 +18,7 @@ public class CharacterController2D : MonoBehaviour
     [SerializeField] private float fallMultiplier = 1f;
     [SerializeField] private float lowJumpFallMultiplier = 1f;
     [SerializeField] private LayerMask platformLayerMask;
+    private bool isJumping; 
 
     [Header("Slopes")]
     [SerializeField] private float slopeCheckDistance;
@@ -42,7 +43,12 @@ public class CharacterController2D : MonoBehaviour
             Flip();
         }
 
+        if(IsGrounded()) {
+            isJumping = false;
+        }
+
         if(IsGrounded() && jumpButtonPressed){
+            isJumping = true;
             rb.velocity = Vector2.up * jumpForce;
         }
 
@@ -62,7 +68,7 @@ public class CharacterController2D : MonoBehaviour
             rb.sharedMaterial = noFrictionMaterial;
         }
 
-        if(IsOnSlopes()) {
+        if(IsOnSlopes() && !isJumping) {
             rb.velocity = new Vector2(-speed * perpenticularSpeed.x, -speed * perpenticularSpeed.y);
         } else {
             rb.velocity = new Vector2(speed, rb.velocity.y);
