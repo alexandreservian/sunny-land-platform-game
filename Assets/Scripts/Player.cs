@@ -10,6 +10,8 @@ public class Player : MonoBehaviour
     private float horizontalMove = 0f;
     private bool jumpButtonPressed = false;
     private bool jumpButtonPressing = false;
+    private bool jumpTouchButtonPressing = false;
+    private float touchButtonHorizontal = 0; 
 
     void Awake()
     {
@@ -20,9 +22,9 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        horizontalMove = Input.GetAxisRaw("Horizontal");
-        jumpButtonPressed = jumpButtonPressed || Input.GetButtonDown("Jump");
-        jumpButtonPressing = Input.GetButton("Jump");
+        horizontalMove = touchButtonHorizontal != 0 ? touchButtonHorizontal : Input.GetAxisRaw("Horizontal");
+        jumpButtonPressed = jumpButtonPressed || jumpTouchButtonPressing || Input.GetButtonDown("Jump");
+        jumpButtonPressing = jumpTouchButtonPressing || Input.GetButton("Jump");
         SetAnimations();
     }
 
@@ -38,5 +40,13 @@ public class Player : MonoBehaviour
         animator.SetBool("IsRunning", isRunning);
         animator.SetBool("IsJumping", isJumping);
         animator.SetFloat("YVelocity", rb.velocity.y);
+    }
+
+    public void SetJumpTouchButton(bool value) {
+        jumpTouchButtonPressing = value;
+    }
+
+    public void SetTouchButtonHorizontal(float value) {
+        touchButtonHorizontal = value;
     }
 }
