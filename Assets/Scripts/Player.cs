@@ -25,9 +25,10 @@ public class Player : MonoBehaviour
 
     public void SetJumpButtonPressed(InputAction.CallbackContext action) => jumpButtonPressed = action.performed;
 
+    public void SetJumpButtonPressing(InputAction.CallbackContext action) => jumpButtonPressing = action.performed;
+
     void Update()
     {
-        jumpButtonPressing = false;
         SetAnimations();
     }
 
@@ -43,13 +44,5 @@ public class Player : MonoBehaviour
         animator.SetBool("IsRunning", isRunning);
         animator.SetBool("IsJumping", isJumping);
         animator.SetFloat("YVelocity", rb.velocity.y);
-    }
-
-    public void SetJumpTouchButton(bool value) {
-        jumpTouchButtonPressing = value;
-    }
-
-    public void SetTouchButtonHorizontal(float value) {
-        touchButtonHorizontal = value;
     }
 }

@@ -22,6 +22,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "VariableJump",
+                    "type": "Button",
+                    "id": "9fbca1a3-b572-4796-8d82-1e91f60690ab",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -62,10 +71,21 @@
                     "name": "",
                     "id": "1c49878b-0468-48e3-a33a-d1272bb8aaec",
                     "path": "<Keyboard>/space",
-                    "interactions": "Hold,Press",
+                    "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5422dc47-cd1a-4cf6-b7d8-5db50078a98c",
+                    "path": "<Keyboard>/space",
+                    "interactions": "Hold(duration=1.401298E-45,pressPoint=1.401298E-45)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "VariableJump",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
