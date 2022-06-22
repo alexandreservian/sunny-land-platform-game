@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class Player : MonoBehaviour
     private bool jumpButtonPressed = false;
     private bool jumpButtonPressing = false;
     private bool jumpTouchButtonPressing = false;
-    private float touchButtonHorizontal = 0; 
+    private float touchButtonHorizontal = 0;
 
     void Awake()
     {
@@ -20,11 +21,13 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
+    public void SetMoviment(InputAction.CallbackContext action) => horizontalMove = action.ReadValue<float>();
+
+    public void SetJumpButtonPressed(InputAction.CallbackContext action) => jumpButtonPressed = action.performed;
+
     void Update()
     {
-        horizontalMove = touchButtonHorizontal != 0 ? touchButtonHorizontal : Input.GetAxisRaw("Horizontal");
-        jumpButtonPressed = jumpButtonPressed || jumpTouchButtonPressing || Input.GetButtonDown("Jump");
-        jumpButtonPressing = jumpTouchButtonPressing || Input.GetButton("Jump");
+        jumpButtonPressing = false;
         SetAnimations();
     }
 
