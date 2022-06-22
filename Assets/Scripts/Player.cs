@@ -11,8 +11,6 @@ public class Player : MonoBehaviour
     private float horizontalMove = 0f;
     private bool jumpButtonPressed = false;
     private bool jumpButtonPressing = false;
-    private bool jumpTouchButtonPressing = false;
-    private float touchButtonHorizontal = 0;
 
     void Awake()
     {
