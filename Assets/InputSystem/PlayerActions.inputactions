@@ -68,6 +68,39 @@
                     "isPartOfComposite": true
                 },
                 {
+                    "name": "Arrows Controller",
+                    "id": "3a8086bf-e7cd-4461-9add-686cfcbbbb94",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Moviment",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "f3821e42-4445-4618-93b6-31ea8c219bde",
+                    "path": "<Gamepad>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Moviment",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "4f5c108d-37fb-43f7-a4cd-2e353a9e8d64",
+                    "path": "<Gamepad>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Moviment",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "",
                     "id": "1c49878b-0468-48e3-a33a-d1272bb8aaec",
                     "path": "<Keyboard>/space",
@@ -80,9 +113,31 @@
                 },
                 {
                     "name": "",
+                    "id": "8be58617-a0df-4601-9ccf-4ccd93cb0c1f",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "5422dc47-cd1a-4cf6-b7d8-5db50078a98c",
                     "path": "<Keyboard>/space",
                     "interactions": "Hold(duration=1.401298E-45,pressPoint=1.401298E-45)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "VariableJump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "225cf403-f0ff-48a2-8d33-b978272c8b0f",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "Hold(duration=1.401298E-45)",
                     "processors": "",
                     "groups": "",
                     "action": "VariableJump",
