@@ -7,7 +7,6 @@ using UnityEngine.UI;
 public class Scroller : MonoBehaviour
 {
     private RawImage rawImage;
-    private float offSet;
     [SerializeField] private float increase;
     [SerializeField] private float speed;
     void Awake()
@@ -17,7 +16,6 @@ public class Scroller : MonoBehaviour
 
     void FixedUpdate()
     {
-        offSet += increase;
         rawImage.uvRect = new Rect(rawImage.uvRect.position + new Vector2(increase * speed / 1000, 0), rawImage.uvRect.size);
     }
 }
