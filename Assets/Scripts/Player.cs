@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     private float horizontalMove = 0f;
     private bool jumpButtonPressed = false;
     private bool jumpButtonPressing = false;
+    [SerializeField] [Range(1, 6)] private int health = 0;
 
     void Awake()
     {
@@ -45,5 +46,9 @@ public class Player : MonoBehaviour
         animator.SetBool("IsRunning", isRunning);
         animator.SetBool("IsJumping", isJumping);
         animator.SetFloat("YVelocity", rb.velocity.y);
+    }
+
+    public void OnDamageDone(int damage) {
+        Debug.Log(damage);
     }
 }
