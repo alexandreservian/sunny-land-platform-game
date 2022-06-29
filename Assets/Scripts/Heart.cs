@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(Image))]
 public class Heart : MonoBehaviour
 {
     public bool active = true;
@@ -19,5 +20,4 @@ public class Heart : MonoBehaviour
     public void ActiveHeart(bool active) {
         heart.sprite = active ? heartOn : heartOff;
     }
-
 }
