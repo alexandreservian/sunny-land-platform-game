@@ -6,13 +6,14 @@ public class LifeBar : MonoBehaviour
     private Transform heartTransform;
     void Awake(){
         heartTransform = heart.GetComponent<Transform>();
-        CreateHearts(2);
+        CreateHearts(4);
     }
 
     void CreateHearts(int numberHearts) {
-        Debug.Log(heartTransform.position.x);
         for (int i = 0; i < numberHearts; i++) {
-            GameObject HeartClone = Instantiate(heart, new Vector2(35f * i, transform.position.y), transform.rotation, transform);
+            GameObject HeartClone = Instantiate(heart, transform.position, transform.rotation, transform);
+            RectTransform rt = HeartClone.GetComponent<RectTransform>();
+            rt.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, (rt.rect.width + 5f) * i, rt.rect.width);
         }
     }
 }
