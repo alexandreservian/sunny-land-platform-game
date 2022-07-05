@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -20,12 +21,15 @@ public class LifeBar : MonoBehaviour
         }
     }
 
-    public void Damage(int damage) {
+    public void Damage(int damage) => StartCoroutine(DamageManager(damage));
+
+    IEnumerator DamageManager(int damage) {
         var activeHearts = heartsList.Where(heart => heart.active);
         var takeHearts = Mathf.Clamp(damage, 0, activeHearts.Count());
         var list = activeHearts.Reverse().Take(takeHearts).ToList();
         foreach(HeartManager heart in list) {
-            heart.ActiveHeart(false);
+            heart.Disable();
+            yield return new WaitForSeconds(0.3f);
         }
     }
 }

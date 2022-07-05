@@ -5,18 +5,14 @@ using UnityEngine.UI;
 public class HeartManager : MonoBehaviour
 {
     public bool active = true;
-    [SerializeField] Sprite heartOff;
-    private Image heart;
-    private Sprite heartOn;
+    private Animator animator;
 
     void Awake() {
-        heart = GetComponent<Image>();
-        heartOn = heart.sprite;
-        ActiveHeart(active);
+        animator = GetComponent<Animator>();
     }
 
-    public void ActiveHeart(bool newActive) {
-        active = newActive;
-        heart.sprite = newActive ? heartOn : heartOff;
+    public void Disable() {
+        active = false;
+        animator.Play("Disable");
     }
 }
