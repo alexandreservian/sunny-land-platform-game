@@ -643,7 +643,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 281dd9abe0c6f449db54fb5c4beb5db5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 5
+  maxHealth: 5
   prefabLifeBar: {fileID: 3829574064932552061, guid: 2d99b9b264fbc4b3bbcf20a6bdc8919c, type: 3}
   mainCanvas: {fileID: 589061430}
 --- !u!61 &446657651

@@ -17,7 +17,8 @@ public class Player : MonoBehaviour
     private bool jumpButtonPressing = false;
 
     [Header("Health")]
-    [SerializeField] [Range(1, 6)] private int health = 0;
+    [SerializeField] [Range(1, 6)] private int maxHealth = 0;
+    private int health = 0;
     [SerializeField] private GameObject prefabLifeBar;
     [SerializeField] private RectTransform mainCanvas;
     private LifeBar lifeBar;
@@ -29,7 +30,7 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         var InstantiateLifeBar = Instantiate(prefabLifeBar, mainCanvas, false);
         lifeBar = InstantiateLifeBar.GetComponent<LifeBar>();
-        lifeBar.CreateHearts(health);
+        lifeBar.CreateHearts(maxHealth);
     }
 
     public void SetMoviment(InputAction.CallbackContext action) => horizontalMove = action.ReadValue<float>();
@@ -59,5 +60,6 @@ public class Player : MonoBehaviour
 
     public void OnDamageDone(int damage) {
         Debug.Log(damage);
+        lifeBar.Damage(damage);
     }
 }
