@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(CharacterController2D))]
 [RequireComponent(typeof(Animator))]
@@ -14,13 +15,21 @@ public class Player : MonoBehaviour
     private float horizontalMove = 0f;
     private bool jumpButtonPressed = false;
     private bool jumpButtonPressing = false;
+
+    [Header("Health")]
     [SerializeField] [Range(1, 6)] private int health = 0;
+    [SerializeField] private GameObject prefabLifeBar;
+    [SerializeField] private RectTransform mainCanvas;
+    private LifeBar lifeBar;
 
     void Awake()
     {
         characterController = GetComponent<CharacterController2D>();
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        var InstantiateLifeBar = Instantiate(prefabLifeBar, mainCanvas, false);
+        lifeBar = InstantiateLifeBar.GetComponent<LifeBar>();
+        lifeBar.CreateHearts(health);
     }
 
     public void SetMoviment(InputAction.CallbackContext action) => horizontalMove = action.ReadValue<float>();

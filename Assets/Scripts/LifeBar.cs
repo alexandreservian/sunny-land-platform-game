@@ -1,19 +1,21 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class LifeBar : MonoBehaviour
 {
     [SerializeField] private GameObject heart;
-    private Transform heartTransform;
+    private List<HeartManager> heartsList;
     void Awake(){
-        heartTransform = heart.GetComponent<Transform>();
-        CreateHearts(4);
+        heartsList = new List<HeartManager>();
     }
 
-    void CreateHearts(int numberHearts) {
+    public void CreateHearts(int numberHearts) {
         for (int i = 0; i < numberHearts; i++) {
-            GameObject HeartClone = Instantiate(heart, transform.position, transform.rotation, transform);
+            GameObject HeartClone = Instantiate(heart, transform, false);
             RectTransform rt = HeartClone.GetComponent<RectTransform>();
+            HeartManager hM = HeartClone.GetComponent<HeartManager>();
             rt.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, (rt.rect.width + 5f) * i, rt.rect.width);
+            heartsList.Add(hM);
         }
     }
 }
