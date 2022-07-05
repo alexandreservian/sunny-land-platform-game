@@ -15,7 +15,8 @@ public class HeartManager : MonoBehaviour
         ActiveHeart(active);
     }
 
-    public void ActiveHeart(bool active) {
-        heart.sprite = active ? heartOn : heartOff;
+    public void ActiveHeart(bool newActive) {
+        active = newActive;
+        heart.sprite = newActive ? heartOn : heartOff;
     }
 }

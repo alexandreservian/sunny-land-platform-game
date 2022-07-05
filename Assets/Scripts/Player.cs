@@ -28,6 +28,7 @@ public class Player : MonoBehaviour
         characterController = GetComponent<CharacterController2D>();
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        health = maxHealth;
         var InstantiateLifeBar = Instantiate(prefabLifeBar, mainCanvas, false);
         lifeBar = InstantiateLifeBar.GetComponent<LifeBar>();
         lifeBar.CreateHearts(maxHealth);
@@ -51,15 +52,15 @@ public class Player : MonoBehaviour
     }
 
     void SetAnimations(){
-        bool isRunning = horizontalMove != 0;
-        bool isJumping = !characterController.IsGrounded();
+        var isRunning = horizontalMove != 0;
+        var isJumping = !characterController.IsGrounded();
         animator.SetBool("IsRunning", isRunning);
         animator.SetBool("IsJumping", isJumping);
         animator.SetFloat("YVelocity", rb.velocity.y);
     }
 
     public void OnDamageDone(int damage) {
-        Debug.Log(damage);
+        health = Mathf.Clamp(damage, 0, health);
         lifeBar.Damage(damage);
     }
 }
