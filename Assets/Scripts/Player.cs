@@ -66,8 +66,8 @@ public class Player : MonoBehaviour
     }
 
     IEnumerator DamagePlayer() {
-        spriteRenderer.color = new Color(255, 255, 255, 0.3f);
+        animator.SetBool("TookDamage", true);
         yield return new WaitForSeconds(0.3f);
-        spriteRenderer.color = new Color(255, 255, 255);
+        animator.SetBool("TookDamage", false);
     }
 }
