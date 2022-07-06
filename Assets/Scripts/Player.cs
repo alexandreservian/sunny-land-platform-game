@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     private CharacterController2D characterController;
     private Animator animator;
     private Rigidbody2D rb;
+    private SpriteRenderer spriteRenderer;
     private float horizontalMove = 0f;
     private bool jumpButtonPressed = false;
     private bool jumpButtonPressing = false;
@@ -28,6 +29,7 @@ public class Player : MonoBehaviour
         characterController = GetComponent<CharacterController2D>();
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         health = maxHealth;
         var InstantiateLifeBar = Instantiate(prefabLifeBar, mainCanvas, false);
         lifeBar = InstantiateLifeBar.GetComponent<LifeBar>();
@@ -62,5 +64,12 @@ public class Player : MonoBehaviour
     public void OnDamageDone(int damage) {
         health = Mathf.Clamp(damage, 0, health);
         lifeBar.Damage(damage);
+        StartCoroutine(DamagePlayer());
+    }
+
+    IEnumerator DamagePlayer() {
+        spriteRenderer.color = new Color(255, 255, 255, 0.3f);
+        yield return new WaitForSeconds(0.3f);
+        spriteRenderer.color = new Color(255, 255, 255);
     }
 }
