@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
     [Header("Health")]
     [SerializeField] [Range(1, 6)] private int maxHealth = 0;
     private int health = 0;
+    private bool tookDamage = false;
     [SerializeField] private GameObject prefabLifeBar;
     [SerializeField] private RectTransform mainCanvas;
     private LifeBar lifeBar;
@@ -57,6 +58,7 @@ public class Player : MonoBehaviour
         animator.SetBool("IsRunning", isRunning);
         animator.SetBool("IsJumping", isJumping);
         animator.SetFloat("YVelocity", rb.velocity.y);
+        animator.SetBool("TookDamage", tookDamage);
     }
 
     public void OnDamageDone(int damage) {
@@ -66,8 +68,8 @@ public class Player : MonoBehaviour
     }
 
     IEnumerator DamagePlayer() {
-        animator.SetBool("TookDamage", true);
-        yield return new WaitForSeconds(0.3f);
-        animator.SetBool("TookDamage", false);
+        tookDamage = true;
+        yield return new WaitForSeconds(0.5f);
+        tookDamage = false;
     }
 }

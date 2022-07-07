@@ -9,7 +9,7 @@ public class Thorns : MonoBehaviour
     public delegate void DamageDoneHandler(int damage);
     public event DamageDoneHandler DamageDone;
 
-    private void OnTriggerEnter2D(Collider2D collider) {
+    private void OnTriggerStay2D(Collider2D collider) {
         if(collider.gameObject.CompareTag("Player") && DamageDone != null) {
             DamageDone(damage);
         }
