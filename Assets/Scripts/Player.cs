@@ -17,6 +17,8 @@ public class Player : MonoBehaviour
 
     [Header("Health")]
     [SerializeField] [Range(1, 6)] private int maxHealth = 0;
+    [SerializeField] [Range(1, 6)] private float invincibleTime  = 0;
+    private float invincibleTimeCounter = 0;
     private int health = 0;
     private bool tookDamage = false;
     [SerializeField] private GameObject prefabLifeBar;
@@ -44,10 +46,21 @@ public class Player : MonoBehaviour
     void Update()
     {
         SetAnimations();
+        TimersManager();
+    }
+
+    void TimersManager () {
+        if (invincibleTimeCounter > 0) {
+            invincibleTimeCounter -= Time.deltaTime;
+        }
     }
 
     void FixedUpdate()
     {
+        if(tookDamage) {
+            rb.velocity = new Vector2(0, rb.velocity.y);
+            return;
+        }
         characterController.Move(horizontalMove, jumpButtonPressed, jumpButtonPressing);
         jumpButtonPressed = false;
     }
@@ -62,14 +75,17 @@ public class Player : MonoBehaviour
     }
 
     public void OnDamageDone(int damage) {
-        health = Mathf.Clamp(damage, 0, health);
-        lifeBar.Damage(damage);
-        StartCoroutine(DamagePlayer());
+        if(invincibleTimeCounter <= 0) {
+            health = Mathf.Clamp(damage, 0, health);
+            lifeBar.Damage(damage);
+            StartCoroutine(DamagePlayer());
+            invincibleTimeCounter = invincibleTime;
+        }
     }
 
     IEnumerator DamagePlayer() {
         tookDamage = true;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.2f);
         tookDamage = false;
     }
 }
