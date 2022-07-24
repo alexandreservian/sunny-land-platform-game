@@ -28,6 +28,10 @@ public class CharacterController2D : MonoBehaviour
     [SerializeField] private PhysicsMaterial2D frictionMaterial;
     private float slopeAngle;
     private Vector2 perpenticularSpeed;
+
+    [Header("Knock Back")]
+    [SerializeField] [Range(0, 4)] int knockBackForceX = 0;
+    [SerializeField] [Range(0, 4)] int knockBackForceY = 0;
     
     void Awake()
     {
@@ -97,6 +101,12 @@ public class CharacterController2D : MonoBehaviour
             return slopeAngle != 0;
         }
         return false;
+    }
+
+    public void KnockBack() {
+        var forceX = facingRight ? -knockBackForceX : knockBackForceX;
+        var forceY = IsGrounded() ? knockBackForceY : rb.velocity.y;
+        rb.velocity = new Vector2(forceX, forceY);
     }
 
     private void OnDrawGizmos() {

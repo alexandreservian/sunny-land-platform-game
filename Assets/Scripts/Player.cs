@@ -58,7 +58,6 @@ public class Player : MonoBehaviour
     void FixedUpdate()
     {
         if(tookDamage) {
-            rb.velocity = new Vector2(0, rb.velocity.y);
             return;
         }
         characterController.Move(horizontalMove, jumpButtonPressed, jumpButtonPressing);
@@ -85,7 +84,8 @@ public class Player : MonoBehaviour
 
     IEnumerator DamagePlayer() {
         tookDamage = true;
-        yield return new WaitForSeconds(0.2f);
+        characterController.KnockBack();
+        yield return new WaitForSeconds(1f);
         tookDamage = false;
     }
 }
