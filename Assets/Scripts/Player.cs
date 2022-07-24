@@ -49,11 +49,18 @@ public class Player : MonoBehaviour
     {
         SetAnimations();
         TimersManager();
+        ResetAlphaColor();
     }
 
     void TimersManager () {
         if (invincibleTimeCounter > 0) {
             invincibleTimeCounter -= Time.deltaTime;
+        }
+    }
+
+    void ResetAlphaColor () {
+        if (invincibleTimeCounter <= 0) {
+            spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 1f);
         }
     }
 
