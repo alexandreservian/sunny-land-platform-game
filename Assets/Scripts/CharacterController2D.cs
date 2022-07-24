@@ -32,6 +32,7 @@ public class CharacterController2D : MonoBehaviour
     [Header("Knock Back")]
     [SerializeField] [Range(0, 4)] int knockBackForceX = 0;
     [SerializeField] [Range(0, 4)] int knockBackForceY = 0;
+    private float knockBackTimeCounter = 0;
     
     void Awake()
     {
@@ -41,44 +42,49 @@ public class CharacterController2D : MonoBehaviour
     }
     public void Move(float horizontalMove, bool jumpButtonPressed, bool jumpButtonPressing)
     {
-        perpenticularSpeed = Vector2.Perpendicular(GetHitSlope().normal).normalized;
-        float speed = horizontalMove * runSpeed;
+        if(knockBackTimeCounter <= 0) {
+            perpenticularSpeed = Vector2.Perpendicular(GetHitSlope().normal).normalized;
+            float speed = horizontalMove * runSpeed;
+            
+
+            if((speed > 0f && !facingRight) || (speed < 0f && facingRight)){
+                Flip();
+            }
+
+            if(IsGrounded()) {
+                isJumping = false;
+            }
+
+            if(IsGrounded() && jumpButtonPressed){
+                isJumping = true;
+                rb.velocity = Vector2.up * jumpForce;
+            }
+
+            if(rb.velocity.y < 0f && !IsGrounded()) {
+                rb.gravityScale = fallMultiplier;
+            }
+            else if (rb.velocity.y > 0f &&  !jumpButtonPressing && !IsGrounded()) {
+                rb.gravityScale = lowJumpFallMultiplier;
+            }
+            else {
+                rb.gravityScale = initalGravityScale;
+            }
+
+            if(IsOnSlopes() && speed == 0f) {
+                rb.sharedMaterial = frictionMaterial;
+            } else {
+                rb.sharedMaterial = noFrictionMaterial;
+            }
+
+            if(IsOnSlopes() && !isJumping) {
+                rb.velocity = new Vector2(-speed * perpenticularSpeed.x, -speed * perpenticularSpeed.y);
+            } else {
+                rb.velocity = new Vector2(speed, rb.velocity.y);
+            }
+        } else {
+            knockBackTimeCounter -= Time.deltaTime;
+        }
         
-
-        if((speed > 0f && !facingRight) || (speed < 0f && facingRight)){
-            Flip();
-        }
-
-        if(IsGrounded()) {
-            isJumping = false;
-        }
-
-        if(IsGrounded() && jumpButtonPressed){
-            isJumping = true;
-            rb.velocity = Vector2.up * jumpForce;
-        }
-
-        if(rb.velocity.y < 0f && !IsGrounded()) {
-            rb.gravityScale = fallMultiplier;
-        }
-        else if (rb.velocity.y > 0f &&  !jumpButtonPressing && !IsGrounded()) {
-            rb.gravityScale = lowJumpFallMultiplier;
-        }
-        else {
-            rb.gravityScale = initalGravityScale;
-        }
-
-        if(IsOnSlopes() && speed == 0f) {
-            rb.sharedMaterial = frictionMaterial;
-        } else {
-            rb.sharedMaterial = noFrictionMaterial;
-        }
-
-        if(IsOnSlopes() && !isJumping) {
-            rb.velocity = new Vector2(-speed * perpenticularSpeed.x, -speed * perpenticularSpeed.y);
-        } else {
-            rb.velocity = new Vector2(speed, rb.velocity.y);
-        }
     }
     private void Flip()
     {
@@ -103,10 +109,11 @@ public class CharacterController2D : MonoBehaviour
         return false;
     }
 
-    public void KnockBack() {
+    public void KnockBack(float knockBackTime) {
         var forceX = facingRight ? -knockBackForceX : knockBackForceX;
         var forceY = IsGrounded() ? knockBackForceY : rb.velocity.y;
         rb.velocity = new Vector2(forceX, forceY);
+        knockBackTimeCounter = knockBackTime;
     }
 
     private void OnDrawGizmos() {

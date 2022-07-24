@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(CharacterController2D))]
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(SpriteRenderer))]
 public class Player : MonoBehaviour
 {
     private CharacterController2D characterController;
@@ -17,7 +18,8 @@ public class Player : MonoBehaviour
 
     [Header("Health")]
     [SerializeField] [Range(1, 6)] private int maxHealth = 0;
-    [SerializeField] [Range(1, 6)] private float invincibleTime  = 0;
+    [SerializeField] [Range(0, 1)] private float invincibleTime  = 0;
+    [SerializeField] [Range(0, 1)] private float tookDamageTime  = 0;
     private float invincibleTimeCounter = 0;
     private int health = 0;
     private bool tookDamage = false;
@@ -57,9 +59,6 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(tookDamage) {
-            return;
-        }
         characterController.Move(horizontalMove, jumpButtonPressed, jumpButtonPressing);
         jumpButtonPressed = false;
     }
@@ -77,6 +76,7 @@ public class Player : MonoBehaviour
         if(invincibleTimeCounter <= 0) {
             health = Mathf.Clamp(damage, 0, health);
             lifeBar.Damage(damage);
+            spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 0.6f);
             StartCoroutine(DamagePlayer());
             invincibleTimeCounter = invincibleTime;
         }
@@ -84,8 +84,8 @@ public class Player : MonoBehaviour
 
     IEnumerator DamagePlayer() {
         tookDamage = true;
-        characterController.KnockBack();
-        yield return new WaitForSeconds(1f);
+        characterController.KnockBack(tookDamageTime);
+        yield return new WaitForSeconds(tookDamageTime);
         tookDamage = false;
     }
 }

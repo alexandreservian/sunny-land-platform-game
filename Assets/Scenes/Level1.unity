@@ -631,6 +631,8 @@ MonoBehaviour:
   slopeCheckDistance: 1
   noFrictionMaterial: {fileID: 6200000, guid: 1cb1fb55a9b4c4808921897c4ee4213a, type: 2}
   frictionMaterial: {fileID: 6200000, guid: 51a5f6716d0354eb7a38dcb40c81ad06, type: 2}
+  knockBackForceX: 2
+  knockBackForceY: 4
 --- !u!114 &446657650
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -644,7 +646,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 5
-  invincibleTime: 2
+  invincibleTime: 1
+  tookDamageTime: 0.3
   prefabLifeBar: {fileID: 3829574064932552061, guid: 2d99b9b264fbc4b3bbcf20a6bdc8919c, type: 3}
   mainCanvas: {fileID: 589061430}
 --- !u!61 &446657651
@@ -17600,7 +17603,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1094227447}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -28.762667, y: -7.34289, z: -10.069222}
+  m_LocalPosition: {x: -28.762693, y: -7.34289, z: -10.069222}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -20502,7 +20505,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1635637101}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.0073337555, y: -0.81711006, z: 0}
+  m_LocalPosition: {x: -0.0073070526, y: -0.81711006, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -20539,7 +20542,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 2.001385, y: 1}
+    m_SensorSize: {x: 2, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
