@@ -83,7 +83,6 @@ public class Player : MonoBehaviour
         if(invincibleTimeCounter <= 0) {
             health = Mathf.Clamp(damage, 0, health);
             lifeBar.Damage(damage);
-            spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 0.6f);
             StartCoroutine(DamagePlayer());
             invincibleTimeCounter = invincibleTime;
         }
@@ -91,6 +90,7 @@ public class Player : MonoBehaviour
 
     IEnumerator DamagePlayer() {
         tookDamage = true;
+        spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 0.6f);
         characterController.KnockBack(tookDamageTime);
         yield return new WaitForSeconds(tookDamageTime);
         tookDamage = false;
