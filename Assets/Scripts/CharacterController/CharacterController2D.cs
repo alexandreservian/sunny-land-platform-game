@@ -4,7 +4,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(BoxCollider2D))]
-public class CharacterController2D : MonoBehaviour
+public class CharacterController2D : CharacterStateManager
 {
     private Rigidbody2D rb;
     private BoxCollider2D boxCollider;
