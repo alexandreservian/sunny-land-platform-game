@@ -13,7 +13,7 @@ public class CharacterControllerBase : MonoBehaviour
     public float initalGravityScale;
     
     [Header("Run")]
-    [SerializeField] private float runSpeed = 1f;
+    [SerializeField] public float runSpeed = 1f;
 
     [Header("Jump")]
     [SerializeField] public float jumpForce = 10f;
@@ -54,13 +54,13 @@ public class CharacterControllerBase : MonoBehaviour
         isJumpButtonPressing = jumpButtonPressing;
 
         if(knockBackTimeCounter <= 0) {
-            perpenticularSpeed = Vector2.Perpendicular(GetHitSlope().normal).normalized;
-            float speed = horizontalMove * runSpeed;
+            // perpenticularSpeed = Vector2.Perpendicular(GetHitSlope().normal).normalized;
+            // float speed = horizontalMove * runSpeed;
             
 
-            if((speed > 0f && !facingRight) || (speed < 0f && facingRight)){
-                Flip();
-            }
+            // if((speed > 0f && !facingRight) || (speed < 0f && facingRight)){
+            //     Flip();
+            // }
 
             // if(IsGrounded()) {
             //     isJumping = false;
@@ -87,17 +87,17 @@ public class CharacterControllerBase : MonoBehaviour
             //     rb.sharedMaterial = noFrictionMaterial;
             // }
 
-            if(IsOnSlopes() && !isJumping) {
-                rb.velocity = new Vector2(-speed * perpenticularSpeed.x, -speed * perpenticularSpeed.y);
-            } else {
-                rb.velocity = new Vector2(speed, rb.velocity.y);
-            }
+            // if(IsOnSlopes() && !isJumping) {
+            //     rb.velocity = new Vector2(-speed * perpenticularSpeed.x, -speed * perpenticularSpeed.y);
+            // } else {
+            //     rb.velocity = new Vector2(speed, rb.velocity.y);
+            // }
         } else {
             knockBackTimeCounter -= Time.deltaTime;
         }
         
     }
-    private void Flip()
+    public void Flip()
     {
         facingRight = !facingRight;
         transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);

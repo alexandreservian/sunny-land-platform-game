@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class CharacterJumpingState : CharacterBaseState
 {
+    private float speed;
     public override void EnterState(CharacterController2D character)
     {
         character.isJumping = true;
@@ -9,6 +10,12 @@ public class CharacterJumpingState : CharacterBaseState
     }
     public override void FixedUpdateState(CharacterController2D character)
     {
+        speed = character.horizontalMove * character.runSpeed;
+
+        if((speed > 0f && !character.facingRight) || (speed < 0f && character.facingRight)){
+            character.Flip();
+        }
+
         if(character.rb.velocity.y < 0f && !character.IsGrounded()) {
             character.rb.gravityScale = character.fallMultiplier;
         }
@@ -19,6 +26,8 @@ public class CharacterJumpingState : CharacterBaseState
             character.rb.gravityScale = character.initalGravityScale;
         }
         
+        character.rb.velocity = new Vector2(speed, character.rb.velocity.y);
+
         if(character.IsGrounded()) {
             character.TransitionState(character.IdleState);
         }

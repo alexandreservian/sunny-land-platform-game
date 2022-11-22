@@ -13,16 +13,19 @@ public class CharacterIdleState : CharacterBaseState
             character.isJumping = false;
         }
 
+
+        if(character.IsOnSlopes()) {
+            character.rb.sharedMaterial = character.frictionMaterial;
+        }
+
+        character.rb.velocity = new Vector2(0, character.rb.velocity.y);
+
         if(character.IsGrounded() && character.isJumpButtonPressed){
             character.TransitionState(character.JumpingState);
         }
 
         if(character.horizontalMove != 0) {
             character.TransitionState(character.RunningState);
-        }
-
-        if(character.IsOnSlopes()) {
-            character.rb.sharedMaterial = character.frictionMaterial;
         }
     }
 }
