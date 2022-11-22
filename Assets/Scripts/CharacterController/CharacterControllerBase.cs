@@ -24,8 +24,8 @@ public class CharacterControllerBase : MonoBehaviour
 
     [Header("Slopes")]
     [SerializeField] private float slopeCheckDistance;
-    [SerializeField] private PhysicsMaterial2D noFrictionMaterial;
-    [SerializeField] private PhysicsMaterial2D frictionMaterial;
+    [SerializeField] public PhysicsMaterial2D noFrictionMaterial;
+    [SerializeField] public PhysicsMaterial2D frictionMaterial;
     private float slopeAngle;
     private Vector2 perpenticularSpeed;
 
@@ -81,11 +81,11 @@ public class CharacterControllerBase : MonoBehaviour
             //     rb.gravityScale = initalGravityScale;
             // }
 
-            if(IsOnSlopes() && speed == 0f) {
-                rb.sharedMaterial = frictionMaterial;
-            } else {
-                rb.sharedMaterial = noFrictionMaterial;
-            }
+            // if(IsOnSlopes() && speed == 0f) {
+            //     rb.sharedMaterial = frictionMaterial;
+            // } else {
+            //     rb.sharedMaterial = noFrictionMaterial;
+            // }
 
             if(IsOnSlopes() && !isJumping) {
                 rb.velocity = new Vector2(-speed * perpenticularSpeed.x, -speed * perpenticularSpeed.y);
@@ -108,11 +108,11 @@ public class CharacterControllerBase : MonoBehaviour
         return raycastHit2d.collider != null;
     }
 
-    private RaycastHit2D GetHitSlope() {
+    public RaycastHit2D GetHitSlope() {
         return Physics2D.Raycast(transform.position, Vector2.down, slopeCheckDistance, platformLayerMask);
     }
 
-    private bool IsOnSlopes() {
+    public bool IsOnSlopes() {
         if(GetHitSlope()) {
             float slopeAngle = Vector2.Angle(GetHitSlope().normal, Vector2.up);
             return slopeAngle != 0;

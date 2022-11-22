@@ -18,6 +18,7 @@ public class CharacterJumpingState : CharacterBaseState
         else {
             character.rb.gravityScale = character.initalGravityScale;
         }
+        
         if(character.IsGrounded()) {
             character.TransitionState(character.IdleState);
         }
