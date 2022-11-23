@@ -25,6 +25,12 @@ public class CharacterRunningState : CharacterBaseState
             character.rb.sharedMaterial = character.noFrictionMaterial;
         }
 
+        if (character.rb.velocity.y > 0f &&  !character.isJumpButtonPressing && !character.IsGrounded()) {
+            character.rb.gravityScale = character.lowJumpFallMultiplier;
+        }else {
+            character.rb.gravityScale = character.initalGravityScale;
+        }
+
         if(character.IsOnSlopes() && !character.isJumping) {
             character.rb.velocity = new Vector2(-speed * perpenticularSpeed.x, -speed * perpenticularSpeed.y);
         } else {

@@ -6,11 +6,11 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider2D))]
 public class CharacterControllerBase : MonoBehaviour
 {
-    public Rigidbody2D rb;
+    public Rigidbody2D rb { get; set; }
     private BoxCollider2D boxCollider;
     
     [SerializeField] private float groundCheckDistance = 0.05f;
-    public float initalGravityScale;
+    
     
     [Header("Run")]
     [SerializeField] public float runSpeed = 1f;
@@ -33,13 +33,12 @@ public class CharacterControllerBase : MonoBehaviour
     [SerializeField] [Range(0, 4)] int knockBackForceX = 0;
     [SerializeField] [Range(0, 4)] int knockBackForceY = 0;
     private float knockBackTimeCounter = 0;
-
-    [Header("Inputs State")]
-    public bool facingRight = true;
-    public bool isJumping;
-    public float horizontalMove;
-    public bool isJumpButtonPressed;
-    public bool isJumpButtonPressing;
+    public bool facingRight { get; set; } = true;
+    public bool isJumping { get; set; }
+    public float horizontalMove { get; set; }
+    public bool isJumpButtonPressed { get; set; }
+    public bool isJumpButtonPressing { get; set; }
+    public float initalGravityScale { get; set; }
     
     void Awake()
     {
