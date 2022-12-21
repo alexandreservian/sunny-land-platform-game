@@ -53,44 +53,6 @@ public class CharacterControllerBase : MonoBehaviour
         isJumpButtonPressing = jumpButtonPressing;
 
         if(knockBackTimeCounter <= 0) {
-            // perpenticularSpeed = Vector2.Perpendicular(GetHitSlope().normal).normalized;
-            // float speed = horizontalMove * runSpeed;
-            
-
-            // if((speed > 0f && !facingRight) || (speed < 0f && facingRight)){
-            //     Flip();
-            // }
-
-            // if(IsGrounded()) {
-            //     isJumping = false;
-            // }
-
-            // if(IsGrounded() && jumpButtonPressed){
-            //     isJumping = true;
-            //     rb.velocity = Vector2.up * jumpForce;
-            // }
-
-            // if(rb.velocity.y < 0f && !IsGrounded()) {
-            //     rb.gravityScale = fallMultiplier;
-            // }
-            // else if (rb.velocity.y > 0f &&  !jumpButtonPressing && !IsGrounded()) {
-            //     rb.gravityScale = lowJumpFallMultiplier;
-            // }
-            // else {
-            //     rb.gravityScale = initalGravityScale;
-            // }
-
-            // if(IsOnSlopes() && speed == 0f) {
-            //     rb.sharedMaterial = frictionMaterial;
-            // } else {
-            //     rb.sharedMaterial = noFrictionMaterial;
-            // }
-
-            // if(IsOnSlopes() && !isJumping) {
-            //     rb.velocity = new Vector2(-speed * perpenticularSpeed.x, -speed * perpenticularSpeed.y);
-            // } else {
-            //     rb.velocity = new Vector2(speed, rb.velocity.y);
-            // }
         } else {
             knockBackTimeCounter -= Time.deltaTime;
         }
@@ -111,9 +73,45 @@ public class CharacterControllerBase : MonoBehaviour
         return Physics2D.Raycast(transform.position, Vector2.down, slopeCheckDistance, platformLayerMask);
     }
 
+    public RaycastHit2D GetHitSlopeLeft() {
+        return Physics2D.Raycast(GetStartPositionHitSlope()["left"], Vector2.down, slopeCheckDistance, platformLayerMask);
+    }
+
+    public RaycastHit2D GetHitSlopeRight() {
+        return Physics2D.Raycast(GetStartPositionHitSlope()["right"], Vector2.down, slopeCheckDistance, platformLayerMask);
+    }
+
     public bool IsOnSlopes() {
         if(GetHitSlope()) {
             float slopeAngle = Vector2.Angle(GetHitSlope().normal, Vector2.up);
+            return slopeAngle != 0;
+        }
+        return false;
+    }
+
+    private Dictionary<string, Vector2> GetStartPositionHitSlope() {
+        float left = boxCollider.bounds.center.x - boxCollider.bounds.extents.x;
+        float right = boxCollider.bounds.center.x + boxCollider.bounds.extents.x;
+        float bottom = boxCollider.bounds.center.y - boxCollider.bounds.extents.y;
+        Vector2 startPositionLeft = new Vector2(left, bottom);
+        Vector2 startPositionRight = new Vector2(right, bottom);
+        return new Dictionary<string, Vector2>() {
+            {"left", startPositionLeft},
+            {"right", startPositionRight}
+        };
+    }
+
+    public bool IsOnSlopesLeft() {
+        if(GetHitSlopeLeft()) {
+            float slopeAngle = Vector2.Angle(GetHitSlopeLeft().normal, Vector2.up);
+            return slopeAngle != 0;
+        }
+        return false;
+    }
+
+    public bool IsOnSlopesRight() {
+        if(GetHitSlopeRight()) {
+            float slopeAngle = Vector2.Angle(GetHitSlopeRight().normal, Vector2.up);
             return slopeAngle != 0;
         }
         return false;
@@ -137,6 +135,8 @@ public class CharacterControllerBase : MonoBehaviour
         Debug.DrawRay(boxCollider.bounds.center + new Vector3(boxCollider.bounds.extents.x, 0), Vector2.down * (boxCollider.bounds.extents.y + groundCheckDistance), rayColor);
         Debug.DrawRay(boxCollider.bounds.center - new Vector3(boxCollider.bounds.extents.x, 0), Vector2.down * (boxCollider.bounds.extents.y + groundCheckDistance), rayColor);
         Debug.DrawRay(boxCollider.bounds.center - new Vector3(boxCollider.bounds.extents.x, boxCollider.bounds.extents.y + groundCheckDistance), Vector2.right * (boxCollider.bounds.extents.x) * 2, rayColor);
-        Debug.DrawRay(transform.position, Vector2.down * slopeCheckDistance, Color.blue);
+        // Debug.DrawRay(transform.position, Vector2.down * slopeCheckDistance, Color.blue);
+        Debug.DrawRay(GetStartPositionHitSlope()["left"], Vector2.down * slopeCheckDistance, Color.blue);
+        Debug.DrawRay(GetStartPositionHitSlope()["right"], Vector2.down * slopeCheckDistance, Color.yellow);
     }
 }
