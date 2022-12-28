@@ -9,10 +9,9 @@ public class CharacterIdleState : CharacterBaseState
     public override void FixedUpdateState(CharacterController2D character)
     {
         
-        if(character.IsGrounded()) {
+        if(character.characterCollision.IsGrounded()) {
             character.isJumping = false;
         }
-
 
         if(character.IsOnSlopes()) {
             character.rb.sharedMaterial = character.frictionMaterial;
@@ -20,7 +19,7 @@ public class CharacterIdleState : CharacterBaseState
 
         character.rb.velocity = new Vector2(0, character.rb.velocity.y);
 
-        if(character.IsGrounded() && character.isJumpButtonPressed){
+        if(character.characterCollision.IsGrounded() && character.isJumpButtonPressed){
             character.TransitionState(character.JumpingState);
         }
 

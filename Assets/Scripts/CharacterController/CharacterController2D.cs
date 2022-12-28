@@ -20,7 +20,6 @@ public class CharacterController2D : CharacterControllerBase
     }
 
     public void TransitionState(CharacterBaseState state) {
-        Debug.Log(state.GetType());
         currentState = state;
         currentState.EnterState(this);
     }

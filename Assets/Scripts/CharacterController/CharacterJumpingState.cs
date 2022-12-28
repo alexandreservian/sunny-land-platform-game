@@ -16,10 +16,10 @@ public class CharacterJumpingState : CharacterBaseState
             character.Flip();
         }
 
-        if(character.rb.velocity.y < 0f && !character.IsGrounded()) {
+        if(character.rb.velocity.y < 0f && !character.characterCollision.IsGrounded()) {
             character.rb.gravityScale = character.fallMultiplier;
         }
-        else if (character.rb.velocity.y > 0f &&  !character.isJumpButtonPressing && !character.IsGrounded()) {
+        else if (character.rb.velocity.y > 0f &&  !character.isJumpButtonPressing && !character.characterCollision.IsGrounded()) {
             character.rb.gravityScale = character.lowJumpFallMultiplier;
         }
         else {
@@ -28,7 +28,7 @@ public class CharacterJumpingState : CharacterBaseState
         
         character.rb.velocity = new Vector2(speed, character.rb.velocity.y);
 
-        if(character.IsGrounded()) {
+        if(character.characterCollision.IsGrounded()) {
             character.TransitionState(character.IdleState);
         }
     }

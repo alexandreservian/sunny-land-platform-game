@@ -3,12 +3,14 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(CharacterController2D))]
+[RequireComponent(typeof(CharacterCollision))]
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(SpriteRenderer))]
 public class Player : MonoBehaviour
 {
     private CharacterController2D characterController;
+    private CharacterCollision characterCollision;
     private Animator animator;
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
@@ -30,6 +32,7 @@ public class Player : MonoBehaviour
     void Awake()
     {
         characterController = GetComponent<CharacterController2D>();
+        characterCollision = GetComponent<CharacterCollision>();
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -72,7 +75,7 @@ public class Player : MonoBehaviour
 
     void SetAnimations(){
         var isRunning = horizontalMove != 0;
-        var isJumping = !characterController.IsGrounded();
+        var isJumping = !characterCollision.IsGrounded();
         animator.SetBool("IsRunning", isRunning);
         animator.SetBool("IsJumping", isJumping);
         animator.SetFloat("YVelocity", rb.velocity.y);

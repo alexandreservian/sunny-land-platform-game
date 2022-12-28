@@ -2,15 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(CharacterCollision))]
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(BoxCollider2D))]
 public class CharacterControllerBase : MonoBehaviour
 {
     public Rigidbody2D rb { get; set; }
+    public CharacterCollision characterCollision;
     private BoxCollider2D boxCollider;
-    
-    [SerializeField] private float groundCheckDistance = 0.05f;
-    
     
     [Header("Run")]
     [SerializeField] public float runSpeed = 1f;
@@ -43,6 +42,7 @@ public class CharacterControllerBase : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        characterCollision = GetComponent<CharacterCollision>();
         boxCollider = GetComponent<BoxCollider2D>();
         initalGravityScale = rb.gravityScale;
     }
@@ -62,11 +62,6 @@ public class CharacterControllerBase : MonoBehaviour
     {
         facingRight = !facingRight;
         transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
-    }
-
-    public bool IsGrounded() {
-        RaycastHit2D raycastHit2d = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0f, Vector2.down, groundCheckDistance, platformLayerMask);
-        return raycastHit2d.collider != null;
     }
 
     public RaycastHit2D GetHitSlope() {
@@ -119,24 +114,24 @@ public class CharacterControllerBase : MonoBehaviour
 
     public void KnockBack(float knockBackTime) {
         var forceX = facingRight ? -knockBackForceX : knockBackForceX;
-        var forceY = IsGrounded() ? knockBackForceY : rb.velocity.y;
+        var forceY = characterCollision.IsGrounded() ? knockBackForceY : rb.velocity.y;
         rb.velocity = new Vector2(forceX, forceY);
         knockBackTimeCounter = knockBackTime;
     }
 
     private void OnDrawGizmos() {
-        boxCollider = boxCollider == null ? GetComponent<BoxCollider2D>() : boxCollider;
-        Color rayColor;
-        if(IsGrounded()){
-            rayColor = Color.green;
-        }else{
-            rayColor = Color.red;
-        }
-        Debug.DrawRay(boxCollider.bounds.center + new Vector3(boxCollider.bounds.extents.x, 0), Vector2.down * (boxCollider.bounds.extents.y + groundCheckDistance), rayColor);
-        Debug.DrawRay(boxCollider.bounds.center - new Vector3(boxCollider.bounds.extents.x, 0), Vector2.down * (boxCollider.bounds.extents.y + groundCheckDistance), rayColor);
-        Debug.DrawRay(boxCollider.bounds.center - new Vector3(boxCollider.bounds.extents.x, boxCollider.bounds.extents.y + groundCheckDistance), Vector2.right * (boxCollider.bounds.extents.x) * 2, rayColor);
+        // boxCollider = boxCollider == null ? GetComponent<BoxCollider2D>() : boxCollider;
+        // Color rayColor;
+        // if(IsGrounded()){
+        //     rayColor = Color.green;
+        // }else{
+        //     rayColor = Color.red;
+        // }
+        // Debug.DrawRay(boxCollider.bounds.center + new Vector3(boxCollider.bounds.extents.x, 0), Vector2.down * (boxCollider.bounds.extents.y + groundCheckDistance), rayColor);
+        // Debug.DrawRay(boxCollider.bounds.center - new Vector3(boxCollider.bounds.extents.x, 0), Vector2.down * (boxCollider.bounds.extents.y + groundCheckDistance), rayColor);
+        // Debug.DrawRay(boxCollider.bounds.center - new Vector3(boxCollider.bounds.extents.x, boxCollider.bounds.extents.y + groundCheckDistance), Vector2.right * (boxCollider.bounds.extents.x) * 2, rayColor);
         // Debug.DrawRay(transform.position, Vector2.down * slopeCheckDistance, Color.blue);
-        Debug.DrawRay(GetStartPositionHitSlope()["left"], Vector2.down * slopeCheckDistance, Color.blue);
-        Debug.DrawRay(GetStartPositionHitSlope()["right"], Vector2.down * slopeCheckDistance, Color.yellow);
+        // Debug.DrawRay(GetStartPositionHitSlope()["left"], Vector2.down * slopeCheckDistance, Color.blue);
+        // Debug.DrawRay(GetStartPositionHitSlope()["right"], Vector2.down * slopeCheckDistance, Color.yellow);
     }
 }

@@ -17,16 +17,14 @@ public class CharacterRunningState : CharacterBaseState
             character.Flip();
         }
 
-        if(character.IsGrounded()) {
+        if(character.characterCollision.IsGrounded()) {
             character.isJumping = false;
         }
 
         if(character.IsOnSlopes()) {
             character.rb.sharedMaterial = character.noFrictionMaterial;
         }
-
         
-
         if(character.IsOnSlopes() && !character.isJumping) {
             character.rb.velocity = new Vector2(-speed * perpenticularSpeed.x, -speed * perpenticularSpeed.y);
         } else {
@@ -34,13 +32,11 @@ public class CharacterRunningState : CharacterBaseState
         }
 
         if(!character.IsOnSlopesRight() && character.IsOnSlopesLeft() && (character.GetHitSlopeRight().point.y > character.GetHitSlopeLeft().point.y)) {
-            Debug.Log("sim");
             character.rb.velocity = new Vector2(speed, 0);
         }else{
-            Debug.Log("nao");
         }
 
-        if(character.IsGrounded() && character.isJumpButtonPressed){
+        if(character.characterCollision.IsGrounded() && character.isJumpButtonPressed){
             character.TransitionState(character.JumpingState);
         }
 
