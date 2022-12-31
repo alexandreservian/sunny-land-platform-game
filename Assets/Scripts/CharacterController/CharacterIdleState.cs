@@ -13,7 +13,7 @@ public class CharacterIdleState : CharacterBaseState
             character.isJumping = false;
         }
 
-        if(character.IsOnSlopes()) {
+        if(character.CharacterIsOnSlopes()) {
             character.rb.sharedMaterial = character.frictionMaterial;
         }
 

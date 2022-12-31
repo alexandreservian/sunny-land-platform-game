@@ -10,7 +10,7 @@ public class CharacterRunningState : CharacterBaseState
     }
     public override void FixedUpdateState(CharacterController2D character)
     {
-        perpenticularSpeed = Vector2.Perpendicular(character.GetHitSlope().normal).normalized;
+        perpenticularSpeed = character.characterCollision.GetPerpendicularSlope(character.GetDirection());
         speed = character.horizontalMove * character.runSpeed;
 
         if((speed > 0f && !character.facingRight) || (speed < 0f && character.facingRight)){
@@ -21,19 +21,18 @@ public class CharacterRunningState : CharacterBaseState
             character.isJumping = false;
         }
 
-        if(character.IsOnSlopes()) {
+        if(character.CharacterIsOnSlopes()) {
             character.rb.sharedMaterial = character.noFrictionMaterial;
         }
         
-        if(character.IsOnSlopes() && !character.isJumping) {
+        if(character.CharacterIsOnSlopes() && !character.isJumping) {
             character.rb.velocity = new Vector2(-speed * perpenticularSpeed.x, -speed * perpenticularSpeed.y);
         } else {
             character.rb.velocity = new Vector2(speed, character.rb.velocity.y);
         }
 
-        if(!character.IsOnSlopesRight() && character.IsOnSlopesLeft() && (character.GetHitSlopeRight().point.y > character.GetHitSlopeLeft().point.y)) {
+        if(character.characterCollision.IsOnArrestas(character.GetDirection())){
             character.rb.velocity = new Vector2(speed, 0);
-        }else{
         }
 
         if(character.characterCollision.IsGrounded() && character.isJumpButtonPressed){
