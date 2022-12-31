@@ -6,10 +6,13 @@ public class CharacterJumpingState : CharacterBaseState
     public override void EnterState(CharacterController2D character)
     {
         character.isJumping = true;
-        character.rb.velocity = Vector2.up * character.jumpForce;
+        if(character.isJumpButtonPressed){
+            character.rb.velocity = Vector2.up * character.jumpForce;
+        }
     }
     public override void FixedUpdateState(CharacterController2D character)
     {
+        
         speed = character.horizontalMove * character.runSpeed;
 
         if((speed > 0f && !character.facingRight) || (speed < 0f && character.facingRight)){

@@ -35,7 +35,7 @@ public class CharacterRunningState : CharacterBaseState
             character.rb.velocity = new Vector2(speed, 0);
         }
 
-        if(character.characterCollision.IsGrounded() && character.isJumpButtonPressed){
+        if((character.characterCollision.IsGrounded() && character.isJumpButtonPressed) || !character.characterCollision.IsGrounded()){
             character.TransitionState(character.JumpingState);
         }
 
