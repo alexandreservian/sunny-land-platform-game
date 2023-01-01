@@ -492,6 +492,7 @@ GameObject:
   - component: {fileID: 446657650}
   - component: {fileID: 446657652}
   - component: {fileID: 446657653}
+  - component: {fileID: 446657654}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -741,26 +742,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56ced9c87afb542f580c7f95031e5706, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 0}
-  groundCheckDistance: 0.05
-  initalGravityScale: 0
-  runSpeed: 4
+  characterCollision: {fileID: 0}
+  runSpeed: 12
   jumpForce: 12
   fallMultiplier: 4
   lowJumpFallMultiplier: 20
-  platformLayerMask:
-    serializedVersion: 2
-    m_Bits: 64
-  slopeCheckDistance: 1
   noFrictionMaterial: {fileID: 6200000, guid: 1cb1fb55a9b4c4808921897c4ee4213a, type: 2}
   frictionMaterial: {fileID: 6200000, guid: 51a5f6716d0354eb7a38dcb40c81ad06, type: 2}
   knockBackForceX: 2
   knockBackForceY: 4
-  facingRight: 1
-  isJumping: 0
-  horizontalMove: 0
-  isJumpButtonPressed: 0
-  isJumpButtonPressing: 0
+--- !u!114 &446657654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 446657643}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6660eaf79186a4345b6bdcec9fe55e03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundCheckDistance: 0.09
+  platformLayerMask:
+    serializedVersion: 2
+    m_Bits: 64
+  slopeCheckDistance: 1
 --- !u!1 &589061426
 GameObject:
   m_ObjectHideFlags: 0
