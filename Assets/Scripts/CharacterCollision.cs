@@ -17,10 +17,14 @@ public class CharacterCollision : MonoBehaviour
 
     [Header("Ground Check")]
     [SerializeField] private float groundCheckDistance = 0.05f;
-    [SerializeField] public LayerMask platformLayerMask;
+    [SerializeField] private LayerMask platformMaskLayer;
+
+    [Header("Ladder Check")]
+    [SerializeField] private LayerMask platformLadderLayer;
 
     [Header("Slopes")]
     [SerializeField] private float slopeCheckDistance;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -43,15 +47,23 @@ public class CharacterCollision : MonoBehaviour
     }
 
     public bool IsGrounded() {
-        RaycastHit2D raycastHit2d = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0f, Vector2.down, groundCheckDistance, platformLayerMask);
+        RaycastHit2D raycastHit2d = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0f, Vector2.down, groundCheckDistance, platformMaskLayer);
         return raycastHit2d.collider != null;
     }
 
+    public bool IsLadder() {
+        return boxCollider.IsTouchingLayers(platformLadderLayer);
+    }
+
     private RaycastHit2D GetHitSlope(Direction direction) {
-        return Physics2D.Raycast(GetStartDirectionHitSlope()[direction], Vector2.down, slopeCheckDistance, platformLayerMask);
+        return Physics2D.Raycast(GetStartDirectionHitSlope()[direction], Vector2.down, slopeCheckDistance, platformMaskLayer);
+    }
+
+    private bool HasHitSlope() {
+        return GetHitSlope(Direction.Right) && GetHitSlope(Direction.Left);
     }
     public bool IsOnSlopes(Direction direction) {
-        if(GetHitSlope(Direction.Right) && GetHitSlope(Direction.Left)) {
+        if(HasHitSlope()) {
             var hitFrontSlope = GetHitSlope(direction);
             var hitBackSlope = direction == Direction.Right ? GetHitSlope(Direction.Left) : GetHitSlope(Direction.Right);
             var frontAngle = Vector2.Angle(hitFrontSlope.normal, Vector2.up);
@@ -63,7 +75,7 @@ public class CharacterCollision : MonoBehaviour
         return false;
     }
     public Vector2 GetPerpendicularSlope(Direction direction) { 
-        if(GetHitSlope(Direction.Right) && GetHitSlope(Direction.Left)) {
+        if(HasHitSlope()) {
             var hitFrontSlope = GetHitSlope(direction);
             var hitBackSlope = direction == Direction.Right ? GetHitSlope(Direction.Left) : GetHitSlope(Direction.Right);
             var frontAngle = Vector2.Angle(hitFrontSlope.normal, Vector2.up);
@@ -74,7 +86,7 @@ public class CharacterCollision : MonoBehaviour
     }
 
     public bool IsOnArrestas(Direction direction) {
-        if(GetHitSlope(Direction.Right) && GetHitSlope(Direction.Left)) {
+        if(HasHitSlope()) {
             var hitFrontSlope = GetHitSlope(direction);
             var hitBackSlope = direction == Direction.Right ? GetHitSlope(Direction.Left) : GetHitSlope(Direction.Right);
             var frontPointY = Math.Round(hitFrontSlope.point.y, 2);

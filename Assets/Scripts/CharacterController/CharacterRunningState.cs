@@ -25,7 +25,7 @@ public class CharacterRunningState : CharacterBaseState
             character.rb.sharedMaterial = character.noFrictionMaterial;
         }
         
-        if(character.CharacterIsOnSlopes() && !character.isJumping) {
+        if(character.CharacterIsOnSlopes()) {
             character.rb.velocity = new Vector2(-speed * perpenticularSpeed.x, -speed * perpenticularSpeed.y);
         } else {
             character.rb.velocity = new Vector2(speed, character.rb.velocity.y);
@@ -33,6 +33,10 @@ public class CharacterRunningState : CharacterBaseState
 
         if(character.characterCollision.IsOnArrestas(character.GetDirection())){
             character.rb.velocity = new Vector2(speed, 0);
+        }
+
+        if(character.characterCollision.IsLadder()){
+            Debug.Log("SUBIR ESCADAS");
         }
 
         if((character.characterCollision.IsGrounded() && character.isJumpButtonPressed) || !character.characterCollision.IsGrounded()){
