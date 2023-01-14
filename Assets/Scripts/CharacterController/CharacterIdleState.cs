@@ -17,14 +17,21 @@ public class CharacterIdleState : CharacterBaseState
             character.rb.sharedMaterial = character.frictionMaterial;
         }
 
-        character.rb.velocity = new Vector2(0, character.rb.velocity.y);
+        character.rb.velocity = Vector2.zero;
+
+        if(character.characterCollision.IsLadder() && character.verticalMove != 0){
+            character.TransitionState(character.ClimbingLatterState);
+            return;
+        }
 
         if(character.characterCollision.IsGrounded() && character.isJumpButtonPressed){
             character.TransitionState(character.JumpingState);
+            return;
         }
 
         if(character.horizontalMove != 0) {
             character.TransitionState(character.RunningState);
+            return;
         }
     }
 }
