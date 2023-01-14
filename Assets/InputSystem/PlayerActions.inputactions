@@ -6,9 +6,18 @@
             "id": "1ec29d0f-5da3-493f-ba89-46955b82dc8a",
             "actions": [
                 {
-                    "name": "Moviment",
+                    "name": "HorizontalMoviment",
                     "type": "Value",
                     "id": "0b85c051-8692-4d10-b371-31361984c6dd",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "VerticalMoviment",
+                    "type": "Value",
+                    "id": "ba1d5124-5a7a-47a9-8739-0293f007e1a1",
                     "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": "",
@@ -41,7 +50,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Moviment",
+                    "action": "HorizontalMoviment",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -52,7 +61,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Moviment",
+                    "action": "HorizontalMoviment",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -63,7 +72,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Moviment",
+                    "action": "HorizontalMoviment",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -74,7 +83,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Moviment",
+                    "action": "HorizontalMoviment",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -85,7 +94,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Moviment",
+                    "action": "HorizontalMoviment",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -96,7 +105,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Moviment",
+                    "action": "HorizontalMoviment",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -143,6 +152,72 @@
                     "action": "VariableJump",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "Arrows",
+                    "id": "5e68be67-7878-4566-914a-a14fdcb2bcd8",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "VerticalMoviment",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "positive",
+                    "id": "1e0c10de-1714-4d6f-b5de-bfa1d98b3489",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "VerticalMoviment",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "negative",
+                    "id": "377ae7ad-6535-4f59-a775-ad44b5f9a9d3",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "VerticalMoviment",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Arrows Controller",
+                    "id": "770f4d19-6a55-4fb5-99d6-ff6c35cf386f",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "VerticalMoviment",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "positive",
+                    "id": "589a11a7-a440-4512-a180-feae24ef887e",
+                    "path": "<Gamepad>/dpad/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "VerticalMoviment",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "negative",
+                    "id": "1bcfe210-ab13-472f-8fa5-00e8d0c57491",
+                    "path": "<Gamepad>/dpad/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "VerticalMoviment",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         }

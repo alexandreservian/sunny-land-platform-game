@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
     private float horizontalMove = 0f;
+    private float verticalMove = 0f;
     private bool jumpButtonPressed = false;
     private bool jumpButtonPressing = false;
 
@@ -42,7 +43,9 @@ public class Player : MonoBehaviour
         lifeBar.CreateHearts(maxHealth);
     }
 
-    public void SetMoviment(InputAction.CallbackContext action) => horizontalMove = action.ReadValue<float>();
+    public void SetHorizontalMoviment(InputAction.CallbackContext action) => horizontalMove = action.ReadValue<float>();
+
+    public void SetVerticalMoviment(InputAction.CallbackContext action) => verticalMove = action.ReadValue<float>();
 
     public void SetJumpButtonPressed(InputAction.CallbackContext action) => jumpButtonPressed = action.performed;
 
@@ -69,7 +72,7 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-        characterController.Move(horizontalMove, jumpButtonPressed, jumpButtonPressing);
+        characterController.Move(horizontalMove, verticalMove, jumpButtonPressed, jumpButtonPressing);
         jumpButtonPressed = false;
     }
 

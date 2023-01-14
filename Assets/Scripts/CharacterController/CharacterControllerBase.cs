@@ -8,14 +8,18 @@ using UnityEngine;
 public class CharacterControllerBase : MonoBehaviour
 {
     public Rigidbody2D rb { get; set; }
-    public CharacterCollision characterCollision;
+    [HideInInspector] public CharacterCollision characterCollision;
     private BoxCollider2D boxCollider;
     
     [Header("Run")]
-    [SerializeField] public float runSpeed = 1f;
+    [SerializeField] [Range(1, 15)] public float runSpeed = 5f;
+
+    [Header("Climb Latter")]
+    [SerializeField] [Range(1, 5)] public float speedClimbLatter = 5f;
+    public bool isClimbingLatter { get; set; }
 
     [Header("Jump")]
-    [SerializeField] public float jumpForce = 10f;
+    [SerializeField] public float jumpForce = 13f;
     [SerializeField] public float fallMultiplier = 1f;
     [SerializeField] public float lowJumpFallMultiplier = 1f;
     
@@ -31,6 +35,7 @@ public class CharacterControllerBase : MonoBehaviour
     public bool facingRight { get; set; } = true;
     public bool isJumping { get; set; }
     public float horizontalMove { get; set; }
+    public float verticalMove { get; set; }
     public bool isJumpButtonPressed { get; set; }
     public bool isJumpButtonPressing { get; set; }
     public float initalGravityScale { get; set; }
@@ -42,9 +47,11 @@ public class CharacterControllerBase : MonoBehaviour
         boxCollider = GetComponent<BoxCollider2D>();
         initalGravityScale = rb.gravityScale;
     }
-    public void Move(float characterHorizontalMove, bool jumpButtonPressed, bool jumpButtonPressing)
+    public void Move(float characterHorizontalMove, float characterVerticalMove, bool jumpButtonPressed, bool jumpButtonPressing)
     {
+        
         horizontalMove = characterHorizontalMove;
+        verticalMove = characterVerticalMove;
         isJumpButtonPressed = jumpButtonPressed;
         isJumpButtonPressing = jumpButtonPressing;
 

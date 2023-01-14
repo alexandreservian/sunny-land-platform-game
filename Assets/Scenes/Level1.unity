@@ -508,7 +508,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 446657643}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -17.69, y: -1.39, z: -0.06922277}
+  m_LocalPosition: {x: -15.8, y: 2.65, z: -0.06922277}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -681,7 +681,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 446657650}
         m_TargetAssemblyTypeName: Player, Assembly-CSharp
-        m_MethodName: SetMoviment
+        m_MethodName: SetHorizontalMoviment
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -725,6 +725,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 9fbca1a3-b572-4796-8d82-1e91f60690ab
     m_ActionName: Land/VariableJump[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 446657650}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: SetVerticalMoviment
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: ba1d5124-5a7a-47a9-8739-0293f007e1a1
+    m_ActionName: Land/VerticalMoviment[/Keyboard/upArrow,/Keyboard/downArrow]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Land
@@ -744,6 +760,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterCollision: {fileID: 0}
   runSpeed: 5
+  speedClimbLatter: 5
   jumpForce: 13
   fallMultiplier: 4
   lowJumpFallMultiplier: 20
@@ -899,7 +916,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 644503486}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.235, y: 0.18, z: 10.069222}
+  m_LocalPosition: {x: -0.28, y: 0.02, z: 10.069222}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -17919,7 +17936,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1094227447}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -17.69, y: -1.5699999, z: -10.069222}
+  m_LocalPosition: {x: -15.790171, y: 1.7581899, z: -10.069222}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -20989,7 +21006,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1635637101}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.009829521, y: 0.7118101, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
