@@ -12,7 +12,6 @@ public class CharacterJumpingState : CharacterBaseState
     }
     public override void FixedUpdateState(CharacterController2D character)
     {
-        
         speed = character.horizontalMove * character.runSpeed;
 
         if((speed > 0f && !character.facingRight) || (speed < 0f && character.facingRight)){
@@ -33,6 +32,12 @@ public class CharacterJumpingState : CharacterBaseState
 
         if(character.characterCollision.IsGrounded()) {
             character.TransitionState(character.IdleState);
+            return;
+        }
+
+        if(character.characterCollision.IsLadder() && character.verticalMove != 0){
+            character.TransitionState(character.ClimbingLatterState);
+            return;
         }
     }
 }
