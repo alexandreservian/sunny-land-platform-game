@@ -7,9 +7,10 @@ using UnityEngine;
 public class CharacterController2D : CharacterControllerBase
 {
     CharacterBaseState currentState;
-    public CharacterIdleState IdleState = new CharacterIdleState();
-    public CharacterRunningState RunningState = new CharacterRunningState();
-    public CharacterJumpingState JumpingState = new CharacterJumpingState();
+    public CharacterBaseState IdleState = new CharacterIdleState();
+    public CharacterBaseState RunningState = new CharacterRunningState();
+    public CharacterBaseState JumpingState = new CharacterJumpingState();
+    public CharacterBaseState ClimbingLatterState = new CharacterClimbingLatterState();
 
     void Start() {
         TransitionState(IdleState);
