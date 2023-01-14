@@ -16,14 +16,14 @@ public class CharacterCollision : MonoBehaviour
     private BoxCollider2D boxCollider;
 
     [Header("Ground Check")]
-    [SerializeField] private float groundCheckDistance = 0.05f;
+    [SerializeField] [Range(0,0.10f)] private float groundCheckDistance = 0.09f;
     [SerializeField] private LayerMask platformMaskLayer;
 
     [Header("Ladder Check")]
     [SerializeField] private LayerMask platformLadderLayer;
 
     [Header("Slopes")]
-    [SerializeField] private float slopeCheckDistance;
+    [SerializeField] [Range(0,1)] private float slopeCheckDistance = 1f;
 
     void Awake()
     {
