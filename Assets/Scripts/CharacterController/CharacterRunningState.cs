@@ -35,16 +35,19 @@ public class CharacterRunningState : CharacterBaseState
             character.rb.velocity = new Vector2(speed, 0);
         }
 
-        if(character.characterCollision.IsLadder()){
-            Debug.Log("SUBIR ESCADAS");
-        }
-
         if((character.characterCollision.IsGrounded() && character.isJumpButtonPressed) || !character.characterCollision.IsGrounded()){
             character.TransitionState(character.JumpingState);
+            return;
         }
 
         if(character.horizontalMove == 0) {
             character.TransitionState(character.IdleState);
+            return;
+        }
+
+        if(character.characterCollision.IsLadder() && character.verticalMove != 0){
+            character.TransitionState(character.ClimbingLatterState);
+            return;
         }
     }
 }

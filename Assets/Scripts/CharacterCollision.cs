@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(BoxCollider2D))]
 public class CharacterCollision : MonoBehaviour
@@ -21,6 +19,7 @@ public class CharacterCollision : MonoBehaviour
 
     [Header("Ladder Check")]
     [SerializeField] private LayerMask platformLadderLayer;
+    [SerializeField] [Range(0,0.5f)] private float checkRadius = 0.1f ;
 
     [Header("Slopes")]
     [SerializeField] [Range(0,1)] private float slopeCheckDistance = 1f;
@@ -51,8 +50,22 @@ public class CharacterCollision : MonoBehaviour
         return raycastHit2d.collider != null;
     }
 
+    public bool HasLadderUpHead() {
+        var boundsCenter = boxCollider.bounds.center;
+        var boundsExtents = boxCollider.bounds.extents;
+        var position = new Vector2(boundsCenter.x, boundsCenter.y + boundsExtents.y - checkRadius);
+        return Physics2D.OverlapCircle(position, checkRadius, platformLadderLayer);
+    }
+
+    public bool HasLadderDownFoot() {
+        var boundsCenter = boxCollider.bounds.center;
+        var boundsExtents = boxCollider.bounds.extents;
+        var position = new Vector2(boundsCenter.x, boundsCenter.y - boundsExtents.y - checkRadius - 0.1f);
+        return Physics2D.OverlapCircle(position, checkRadius, platformLadderLayer);
+    }
+
     public bool IsLadder() {
-        return boxCollider.IsTouchingLayers(platformLadderLayer);
+        return HasLadderUpHead() || HasLadderDownFoot();
     }
 
     private RaycastHit2D GetHitSlope(Direction direction) {
@@ -107,11 +120,15 @@ public class CharacterCollision : MonoBehaviour
         }else{
             rayColor = Color.red;
         }
-        
+        // Is Grounded
         Debug.DrawRay(boundsCenter + new Vector3(boundsExtents.x, 0), Vector2.down * (boundsExtents.y + groundCheckDistance), rayColor);
         Debug.DrawRay(boundsCenter - new Vector3(boundsExtents.x, 0), Vector2.down * (boundsExtents.y + groundCheckDistance), rayColor);
         Debug.DrawRay(boundsCenter - new Vector3(boundsExtents.x, boundsExtents.y + groundCheckDistance), Vector2.right * (boundsExtents.x) * 2, rayColor);
+        // Slopes
         Debug.DrawRay(GetStartDirectionHitSlope()[Direction.Right], Vector2.down * slopeCheckDistance, Color.blue);
         Debug.DrawRay(GetStartDirectionHitSlope()[Direction.Left], Vector2.down * slopeCheckDistance, Color.yellow);
+        // Ladder
+        Gizmos.DrawWireSphere(new Vector2(boundsCenter.x, boundsCenter.y + boundsExtents.y - checkRadius), checkRadius);
+        Gizmos.DrawWireSphere(new Vector2(boundsCenter.x, boundsCenter.y - boundsExtents.y - checkRadius - 0.1f), checkRadius);
     }
 }

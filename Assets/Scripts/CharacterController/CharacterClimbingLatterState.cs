@@ -10,25 +10,31 @@ public class CharacterClimbingLatterState : CharacterBaseState
     }
     public override void FixedUpdateState(CharacterController2D character)
     {
-        character.rb.velocity = new Vector2(0, character.verticalMove * character.speedClimbLatter);
-        character.isClimbingLatter = true;
-        character.rb.gravityScale = 0;
-
-        if(character.characterCollision.IsGrounded() && character.verticalMove <= 0) {
-            ResetClimb(character);
-            character.TransitionState(character.IdleState);
-            return;
-        }
-
         if(!character.characterCollision.IsGrounded() && !character.characterCollision.IsLadder()) {
             ResetClimb(character);
             character.TransitionState(character.JumpingState);
             return;
         }
+
+        if(!character.characterCollision.HasLadderUpHead() && character.verticalMove >= 0){
+            ResetClimb(character);
+            character.TransitionState(character.IdleState);
+            return;
+        }
+
+        if(!character.characterCollision.HasLadderDownFoot() && character.verticalMove <= 0){
+            ResetClimb(character);
+            character.TransitionState(character.IdleState);
+            return;
+        }
+
+        character.rb.velocity = new Vector2(0, character.verticalMove * character.speedClimbLatter);
+        character.isClimbingLatter = true;
+        character.rb.isKinematic = true;
     }
 
     private void ResetClimb(CharacterController2D character) {
-        character.rb.gravityScale = character.initalGravityScale;
+        character.rb.isKinematic = false;
         character.isClimbingLatter = false;
     }
 }
