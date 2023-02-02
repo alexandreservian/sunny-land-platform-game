@@ -10,21 +10,19 @@ public class CharacterClimbingLatterState : CharacterBaseState
     }
     public override void FixedUpdateState(CharacterController2D character)
     {
-        if(!character.characterCollision.IsGrounded() && !character.characterCollision.IsLadder()) {
+        var limitTopLatter = !character.characterCollision.HasLadderUpHead() && character.verticalMove >= 0;
+        var limitBottomLatter = !character.characterCollision.HasLadderDownFoot() && character.verticalMove <= 0;
+        var limitLatter = limitTopLatter || limitBottomLatter;
+
+        if(limitLatter){
+            ResetClimb(character);
+            character.TransitionState(character.IdleState);
+            return;
+        }
+
+        if(!character.characterCollision.IsGrounded() && limitLatter) {
             ResetClimb(character);
             character.TransitionState(character.JumpingState);
-            return;
-        }
-
-        if(!character.characterCollision.HasLadderUpHead() && character.verticalMove >= 0){
-            ResetClimb(character);
-            character.TransitionState(character.IdleState);
-            return;
-        }
-
-        if(!character.characterCollision.HasLadderDownFoot() && character.verticalMove <= 0){
-            ResetClimb(character);
-            character.TransitionState(character.IdleState);
             return;
         }
 

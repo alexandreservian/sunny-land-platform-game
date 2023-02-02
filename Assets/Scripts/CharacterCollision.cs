@@ -64,8 +64,9 @@ public class CharacterCollision : MonoBehaviour
         return Physics2D.OverlapCircle(position, checkRadius, platformLadderLayer);
     }
 
-    public bool IsLadder() {
-        return HasLadderUpHead() || HasLadderDownFoot();
+    public bool IsLadder(float verticalMove) {
+        var canClimbingLatter = (HasLadderUpHead() && verticalMove == 1) || (HasLadderDownFoot() && verticalMove == -1);
+        return canClimbingLatter;
     }
 
     private RaycastHit2D GetHitSlope(Direction direction) {

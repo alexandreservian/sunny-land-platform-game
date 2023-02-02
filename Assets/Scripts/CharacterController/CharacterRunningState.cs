@@ -45,7 +45,7 @@ public class CharacterRunningState : CharacterBaseState
             return;
         }
 
-        if(character.characterCollision.IsLadder() && character.verticalMove != 0){
+        if(character.characterCollision.IsLadder(character.verticalMove)){
             character.TransitionState(character.ClimbingLatterState);
             return;
         }

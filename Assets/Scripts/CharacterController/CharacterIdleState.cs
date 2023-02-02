@@ -19,11 +19,6 @@ public class CharacterIdleState : CharacterBaseState
 
         character.rb.velocity = Vector2.zero;
 
-        if(character.characterCollision.IsLadder() && character.verticalMove != 0){
-            character.TransitionState(character.ClimbingLatterState);
-            return;
-        }
-
         if(character.characterCollision.IsGrounded() && character.isJumpButtonPressed){
             character.TransitionState(character.JumpingState);
             return;
@@ -31,6 +26,11 @@ public class CharacterIdleState : CharacterBaseState
 
         if(character.horizontalMove != 0) {
             character.TransitionState(character.RunningState);
+            return;
+        }
+
+        if(character.characterCollision.IsLadder(character.verticalMove)){
+            character.TransitionState(character.ClimbingLatterState);
             return;
         }
     }
