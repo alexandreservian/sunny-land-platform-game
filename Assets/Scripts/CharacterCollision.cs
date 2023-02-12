@@ -12,6 +12,9 @@ public class CharacterCollision : MonoBehaviour
     }
     private Rigidbody2D rb;
     private BoxCollider2D boxCollider;
+    private Vector3 boundsCenter;
+    private Vector3 boundsExtents;
+    private Vector3 colliderSize;
 
     [Header("Ground Check")]
     [SerializeField] [Range(0,0.10f)] private float groundCheckDistance = 0.09f;
@@ -30,9 +33,14 @@ public class CharacterCollision : MonoBehaviour
         boxCollider = GetComponent<BoxCollider2D>();
     }
 
+    private void Update()
+    {
+        boundsCenter = boxCollider.bounds.center;
+        boundsExtents = boxCollider.bounds.extents;
+        colliderSize = boxCollider.size;
+    }
+
     private Dictionary<Direction, Vector2> GetStartDirectionHitSlope() {
-        var boundsCenter = boxCollider.bounds.center;
-        var boundsExtents = boxCollider.bounds.extents;
         var right = boundsCenter.x - boundsExtents.x;
         var left = boundsCenter.x + boundsExtents.x;
         var bottom = boundsCenter.y - boundsExtents.y;
@@ -46,20 +54,18 @@ public class CharacterCollision : MonoBehaviour
     }
 
     public bool IsGrounded() {
-        RaycastHit2D raycastHit2d = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0f, Vector2.down, groundCheckDistance, platformMaskLayer);
+        var origin = new Vector2(boundsCenter.x, boundsCenter.y - boundsExtents.y - (groundCheckDistance / 2));
+        var size = new Vector2(colliderSize.x, groundCheckDistance);
+        RaycastHit2D raycastHit2d = Physics2D.BoxCast(origin, size, 0f, Vector2.down, groundCheckDistance, platformMaskLayer);
         return raycastHit2d.collider != null;
     }
 
     public bool HasLadderUpHead() {
-        var boundsCenter = boxCollider.bounds.center;
-        var boundsExtents = boxCollider.bounds.extents;
         var position = new Vector2(boundsCenter.x, boundsCenter.y + boundsExtents.y - checkRadius);
         return Physics2D.OverlapCircle(position, checkRadius, platformLadderLayer);
     }
 
     public bool HasLadderDownFoot() {
-        var boundsCenter = boxCollider.bounds.center;
-        var boundsExtents = boxCollider.bounds.extents;
         var position = new Vector2(boundsCenter.x, boundsCenter.y - boundsExtents.y - checkRadius - 0.1f);
         return Physics2D.OverlapCircle(position, checkRadius, platformLadderLayer);
     }
@@ -114,22 +120,17 @@ public class CharacterCollision : MonoBehaviour
         boxCollider = boxCollider == null ? GetComponent<BoxCollider2D>() : boxCollider;
         var boundsCenter = boxCollider.bounds.center;
         var boundsExtents = boxCollider.bounds.extents;
-        Color rayColor;
-        
-        if(IsGrounded()){
-            rayColor = Color.green;
-        }else{
-            rayColor = Color.red;
-        }
+        var colliderSize = boxCollider.size;
+        Gizmos.color = IsGrounded() ? new Color(0, 1, 0, 0.4f) : new Color(1, 0, 0, 0.4f);
         // Is Grounded
-        Debug.DrawRay(boundsCenter + new Vector3(boundsExtents.x, 0), Vector2.down * (boundsExtents.y + groundCheckDistance), rayColor);
-        Debug.DrawRay(boundsCenter - new Vector3(boundsExtents.x, 0), Vector2.down * (boundsExtents.y + groundCheckDistance), rayColor);
-        Debug.DrawRay(boundsCenter - new Vector3(boundsExtents.x, boundsExtents.y + groundCheckDistance), Vector2.right * (boundsExtents.x) * 2, rayColor);
+        Gizmos.DrawCube(new Vector2(boundsCenter.x, boundsCenter.y - boundsExtents.y - (groundCheckDistance / 2)), new Vector3(colliderSize.x, groundCheckDistance, 0));
         // Slopes
         Debug.DrawRay(GetStartDirectionHitSlope()[Direction.Right], Vector2.down * slopeCheckDistance, Color.blue);
         Debug.DrawRay(GetStartDirectionHitSlope()[Direction.Left], Vector2.down * slopeCheckDistance, Color.yellow);
         // Ladder
+        Gizmos.color = HasLadderUpHead() ? new Color(0, 1, 0, 0.4f) : new Color(1, 0, 0, 0.4f);
         Gizmos.DrawWireSphere(new Vector2(boundsCenter.x, boundsCenter.y + boundsExtents.y - checkRadius), checkRadius);
+        Gizmos.color = HasLadderDownFoot() ? new Color(0, 1, 0, 0.4f) : new Color(1, 0, 0, 0.4f);
         Gizmos.DrawWireSphere(new Vector2(boundsCenter.x, boundsCenter.y - boundsExtents.y - checkRadius - 0.1f), checkRadius);
     }
 }

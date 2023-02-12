@@ -26,6 +26,14 @@ public class CharacterClimbingLatterState : CharacterBaseState
             return;
         }
 
+        if(character.isJumpButtonPressed) {
+            //character.rb.velocity = Vector2.zero;
+            ResetClimb(character);
+            //character.rb.AddForce(new Vector2(5, 5), ForceMode2D.Impulse);
+            character.TransitionState(character.JumpingState);
+            return;
+        }
+
         character.rb.velocity = new Vector2(0, character.verticalMove * character.speedClimbLatter);
         character.isClimbingLatter = true;
         character.rb.isKinematic = true;
